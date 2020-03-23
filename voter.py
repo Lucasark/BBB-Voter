@@ -8,6 +8,7 @@ from selenium.webdriver.remote import switch_to
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 
 def read_configuration_file():
@@ -16,7 +17,7 @@ def read_configuration_file():
     return arguments
 
 def login(driver, email, password):
-    driver.get('https://login.globo.com/login/1')
+    driver.get('https://login.globo.com/login/6694')
     
     email_input = driver.find_element_by_name('login')
     password_input = driver.find_element_by_name('password')
@@ -27,7 +28,7 @@ def login(driver, email, password):
     form.submit()
 
 def click_on_target(driver, target):
-    driver.find_elements_by_class_name('inCORyOvohT4oJQIoKjlO')[target - 1].click()
+    driver.find_elements_by_class_name('_1RF0G4RIo-BHKyKC3_pr68')[target - 1].click()
 
 
 def click_on_captcha(driver):
@@ -38,11 +39,15 @@ arguments = read_configuration_file()
 
 print("You're voting on", arguments['targetPosition'])
 
-driver = webdriver.Edge(executable_path=arguments['webDriverPath'])
+binary = FirefoxBinary('C:\\Program Files\\Mozilla Firefox\\firefox.exe')
+
+driver = webdriver.Firefox(firefox_binary=binary, executable_path=arguments['webDriverPath'])
 driver.implicitly_wait(8)
 
 login(driver, arguments['credentials']['username'],
       arguments['credentials']['password'])
+
+time.sleep(5)
 
 driver.get(arguments['pollURL'])
 
@@ -51,7 +56,7 @@ while True:
     click_on_target(driver, arguments['targetPosition'])
     click_on_captcha(driver)
     time.sleep(5)
-    if not driver.find_element_by_class_name('_1iMqGq8UKv9W1nDF0AvZbu').is_displayed():
+    if not driver.find_element_by_class_name('_1RF0G4RIo-BHKyKC3_pr68 cSp930ArdxECHYj1Qa5rQ').is_displayed():
         click_on_captcha(driver)
     else:
         correct_votes += 1
