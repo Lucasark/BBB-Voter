@@ -56,7 +56,7 @@ while True:
     click_on_target(driver, arguments['targetPosition'])
     click_on_captcha(driver)
     time.sleep(5)
-    if not driver.find_element_by_class_name('_1RF0G4RIo-BHKyKC3_pr68 cSp930ArdxECHYj1Qa5rQ').is_displayed():
+    if not driver.find_element_by_class_name('gc__2b3Aq').is_displayed():
         click_on_captcha(driver)
     else:
         correct_votes += 1
